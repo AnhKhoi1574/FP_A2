@@ -1,0 +1,45 @@
+package com.team10.fp_a2.test;
+
+import com.team10.fp_a2.data.model.person.Owner;
+import com.team10.fp_a2.data.model.property.CommercialProperty;
+import com.team10.fp_a2.data.model.property.Property;
+import com.team10.fp_a2.singleton.DatabaseConnection;
+import jakarta.persistence.EntityManager;
+
+import java.time.LocalDate;
+
+public class FinalTest {
+    public static void main(String[] args) {
+        EntityManager em = DatabaseConnection.getEntityManagerFactory().createEntityManager();
+
+        try {
+            em.getTransaction().begin();
+            // Create and persist Owner
+            Owner owner = new Owner();
+            owner.setFullName("Jane Owner 123");
+            owner.setDob(LocalDate.of(1990, 1, 1));
+            owner.setEmail("owner@example123.com");
+            owner.setUsername("owner_user123");
+            owner.setPassword("password123");
+            em.persist(owner);
+
+            // Create and persist Property
+            Property property = new CommercialProperty("Hello Main St", 157700.0, owner, "office1", false, 40);
+            em.persist(property);
+
+            em.getTransaction().commit();
+
+            System.out.println("Successfully add property");
+
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+            DatabaseConnection.close();
+        }
+    }
+}
+

@@ -11,7 +11,7 @@ import java.util.List;
 @Table(name = "tenants")
 public class Tenant extends Person {
 
-    @OneToMany(mappedBy = "mainTenant", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(mappedBy = "tenants")
     private List<RentalAgreement> rentalAgreements = new ArrayList<>();
 
     @OneToMany(mappedBy = "tenant", cascade = CascadeType.ALL, orphanRemoval = true)

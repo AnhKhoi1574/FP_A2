@@ -20,8 +20,11 @@
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://ep-holy-cherry-a53pda1l.us-east-2.aws.neon.tech/neondb?sslmode=require"/>
             <property name="jakarta.persistence.jdbc.user" value="neondb_owner"/>
             <property name="jakarta.persistence.jdbc.password" value="d5Dv0OwuRQFW"/>
-            
 
+            <property name="hibernate.format_sql" value="true" />
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.use_sql_comments" value="true" />
+            <property name="hibernate.generate_statistics" value="true" />
             <!-- Schema Generation -->
             <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
         </properties>

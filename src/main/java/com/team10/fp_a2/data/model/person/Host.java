@@ -11,7 +11,12 @@ import java.util.List;
 @Table(name = "hosts")
 public class Host extends Person {
 
-    @ManyToMany(mappedBy = "hosts")
+    @ManyToMany
+    @JoinTable(
+            name = "host_property_collaborations",
+            joinColumns = @JoinColumn(name = "host"),
+            inverseJoinColumns = @JoinColumn(name = "property")
+    )
     private List<Property> managedProperties = new ArrayList<>();
 
     @OneToMany(mappedBy = "host", cascade = CascadeType.ALL, orphanRemoval = true)

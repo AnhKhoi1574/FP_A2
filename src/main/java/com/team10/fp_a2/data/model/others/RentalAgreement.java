@@ -17,48 +17,46 @@ public class RentalAgreement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "main_tenant_id", nullable = false)
-    private Tenant mainTenant;
-
     @ManyToMany
     @JoinTable(
-            name = "rental_agreement_sub_tenants",
-            joinColumns = @JoinColumn(name = "agreement_id"),
-            inverseJoinColumns = @JoinColumn(name = "tenant_id")
+            name = "rental_agreement_tenants",
+            joinColumns = @JoinColumn(name = "rental_agreement"), // FK to RentalAgreement
+            inverseJoinColumns = @JoinColumn(name = "tenant")     // FK to Tenant
     )
-    private List<Tenant> subTenants = new ArrayList<>();
+    private List<Tenant> tenants = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "owner", nullable = false)
+    @JoinColumn(name = "owner")
     private Owner owner;
 
     @ManyToOne
-    @JoinColumn(name = "host", nullable = false)
+    @JoinColumn(name = "host")
     private Host host;
 
     @ManyToOne
-    @JoinColumn(name = "property", nullable = false)
+    @JoinColumn(name = "property")
     private Property property;
 
     @Column(nullable = false)
     private int period;
 
-    @Column(name = "contract_date", nullable = false)
+    @Column(name = "contract_date")
     private LocalDate contractDate;
 
-    @Column(name = "renting_fee", nullable = false)
+    @Column(name = "renting_fee")
     private double rentingFee;
 
     @Column(nullable = false)
     private String status;
 
+    @OneToMany(mappedBy = "rentalAgreement", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Payment> payments = new ArrayList<>();
+
     public RentalAgreement() {}
 
-    public RentalAgreement(Tenant mainTenant, List<Tenant> subTenants, Owner owner, Host host, Property property,
+    public RentalAgreement(List<Tenant> tenants, Owner owner, Host host, Property property,
                            int period, LocalDate contractDate, double rentingFee, String status) {
-        this.mainTenant = mainTenant;
-        this.subTenants = subTenants;
+        this.tenants = tenants;
         this.owner = owner;
         this.host = host;
         this.property = property;
@@ -73,20 +71,12 @@ public class RentalAgreement {
         return id;
     }
 
-    public Tenant getMainTenant() {
-        return mainTenant;
+    public List<Tenant> getTenants() {
+        return tenants;
     }
 
-    public void setMainTenant(Tenant mainTenant) {
-        this.mainTenant = mainTenant;
-    }
-
-    public List<Tenant> getSubTenants() {
-        return subTenants;
-    }
-
-    public void setSubTenants(List<Tenant> subTenants) {
-        this.subTenants = subTenants;
+    public void setTenants(List<Tenant> tenants) {
+        this.tenants = tenants;
     }
 
     public Owner getOwner() {
@@ -143,5 +133,13 @@ public class RentalAgreement {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
     }
 }

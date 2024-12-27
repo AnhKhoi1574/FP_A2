@@ -15,8 +15,8 @@ public class Owner extends Person {
     @ManyToMany
     @JoinTable(
             name = "owner_host_collaborations",
-            joinColumns = @JoinColumn(name = "owner_id"),
-            inverseJoinColumns = @JoinColumn(name = "host_id")
+            joinColumns = @JoinColumn(name = "owner"),
+            inverseJoinColumns = @JoinColumn(name = "host")
     )
     private List<Host> hosts = new ArrayList<>();
 

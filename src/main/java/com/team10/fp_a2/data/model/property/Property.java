@@ -24,16 +24,12 @@ public abstract class Property {
     private String status = "available";
 
     @ManyToOne
-    @JoinColumn(name = "owner_id", nullable = false)
+    @JoinColumn(name = "owner", nullable = false)
     private Owner owner;
 
-    @ManyToMany
-    @JoinTable(
-            name = "property_hosts",
-            joinColumns = @JoinColumn(name = "property_id"),
-            inverseJoinColumns = @JoinColumn(name = "host_id")
-    )
+    @ManyToMany(mappedBy = "managedProperties")
     private List<Host> hosts = new ArrayList<>();
+
 
     public Property() {
         // Default constructor
@@ -89,4 +85,5 @@ public abstract class Property {
     public void setHosts(List<Host> hosts) {
         this.hosts = hosts;
     }
+
 }

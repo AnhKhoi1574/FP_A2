@@ -33,6 +33,9 @@ public class Payment {
     @Column(name = "paymentMethod", nullable = false)
     private String paymentMethod;
 
+    @Column(name = "status")
+    private String status;
+
     public Payment() {
     }
 
@@ -42,6 +45,7 @@ public class Payment {
         this.amount = amount;
         this.paymentMethod = paymentMethod;
         this.date = date;
+        this.status = status;
     }
 
     // Getters and Setters
@@ -87,6 +91,14 @@ public class Payment {
 
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override

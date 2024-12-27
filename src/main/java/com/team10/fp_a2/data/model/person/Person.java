@@ -1,10 +1,13 @@
 package com.team10.fp_a2.data.model.person;
 
 import jakarta.persistence.*;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @MappedSuperclass
-public abstract class Person {
+@Access(AccessType.FIELD) // Use field access for JPA
+public abstract class Person implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
