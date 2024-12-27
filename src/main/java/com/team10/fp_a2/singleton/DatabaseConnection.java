@@ -6,13 +6,10 @@ import jakarta.persistence.Persistence;
 
 public class DatabaseConnection {
 
-    // The single instance of EntityManagerFactory
     private static EntityManagerFactory emf;
 
-    // Private constructor to prevent instantiation
     private DatabaseConnection() {}
 
-    // Thread-safe method to get the EntityManagerFactory instance
     public static EntityManagerFactory getEntityManagerFactory() {
         if (emf == null) {
             synchronized (DatabaseConnection.class) {
@@ -24,29 +21,21 @@ public class DatabaseConnection {
         return emf;
     }
 
-    // Method to get EntityManager instance
-    public static EntityManager getEntityManager() {
-        return getEntityManagerFactory().createEntityManager();
-    }
-
-    // Method to close the EntityManagerFactory when the application shuts down
     public static void close() {
         if (emf != null) {
             emf.close();
         }
     }
 
-    // Test the connection (this is similar to your main method but now using this Singleton)
     public static void main(String[] args) {
-        try {
-            EntityManager em = getEntityManager();
+        try (EntityManager em = getEntityManagerFactory().createEntityManager()) {
             em.getTransaction().begin();
-            System.out.println("Database connected.");
+            System.out.println("Connected to Database.");
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.err.println("Database connection failed: " + e.getMessage());
+            System.err.println("Connection Failed: " + e.getMessage());
         } finally {
-            close(); // Ensure we close the EntityManagerFactory when done
+            close();
         }
     }
 }

@@ -1,108 +1,61 @@
 package com.team10.fp_a2.data.model.person;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 
-/**
- * Represents a generic person in the system.
- * This is an abstract class that can be extended for specific roles (e.g., Host, Tenant).
- *
- * @author <Phan Anh Khoi - S3980639>
- */
-
-@Entity
+@MappedSuperclass
 public abstract class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private String id;
+    private Long id;
 
-    @Column(name = "full_name")
+    @Column(name = "full_name", nullable = false)
     private String fullName;
 
-    @Column(name = "dob")
+    @Column(name = "dob", nullable = false)
     private LocalDate dob;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "username")
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
-    /**
-     * Default constructor for initializing a person with default values.
-     */
-    public Person() {
-    }
+    public Person() {}
 
-    /**
-     * Parameterized constructor for initializing a person with specific details.
-     *
-     * @param id        The unique identifier for the person.
-     * @param email     The email address of the person.
-     * @param dob       The date of birth of the person.
-     * @param fullName  The full name of the person.
-     */
-
-    public Person(String id, String email, LocalDate dob, String fullName, String username, String password) {
-        this.id = id;
-        this.email = email;
-        this.dob = dob;
+    public Person(String fullName, LocalDate dob, String email, String username, String password) {
         this.fullName = fullName;
+        this.dob = dob;
+        this.email = email;
         this.username = username;
         this.password = password;
     }
 
-    /**
-     * Retrieves the email address of the person.
-     *
-     * @return The email as a String.
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * Retrieves the date of birth of the person.
-     *
-     * @return The date of birth as a LocalDate object.
-     */
-    public LocalDate getDob() {
-        return dob;
-    }
-
-    /**
-     * Retrieves the full name of the person.
-     *
-     * @return The full name as a String.
-     */
-    public String getFullName() {
-        return fullName;
-    }
-
-    /**
-     * Retrieves the unique identifier of the person.
-     *
-     * @return The ID as a String.
-     */
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getFullName() {
+        return fullName;
     }
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
+    public LocalDate getDob() {
+        return dob;
+    }
+
     public void setDob(LocalDate dob) {
         this.dob = dob;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public void setEmail(String email) {

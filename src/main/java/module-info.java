@@ -13,4 +13,7 @@ module com.team10.fp_a2 {
 
     opens com.team10.fp_a2 to javafx.fxml;
     exports com.team10.fp_a2;
+    exports com.team10.fp_a2.data.model.person;
+    exports com.team10.fp_a2.data.model.property;
+    exports com.team10.fp_a2.data.model.others;
 }

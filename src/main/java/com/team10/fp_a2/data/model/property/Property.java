@@ -1,67 +1,53 @@
 package com.team10.fp_a2.data.model.property;
 
-import com.team10.fp_a2.data.model.person.Host;
-import com.team10.fp_a2.data.model.person.Owner;
+import com.team10.fp_a2.data.model.person.*;
 import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Property {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private String id;
+    private Long id;
 
-    @Column(name = "address")
+    @Column(nullable = false)
     private String address;
 
-    @Column(name = "pricing")
+    @Column(nullable = false)
     private double pricing;
 
-    @Column(name = "status")
-    private String status;
+    @Column(nullable = false)
+    private String status = "available";
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id")
+    @ManyToOne
+    @JoinColumn(name = "owner_id", nullable = false)
     private Owner owner;
-    
-    @ManyToMany
-    @JoinColumn(name = "property_id")
-    @Column(name = "host")
-    private List<Host> hosts;
 
-    /**
-     * Default constructor initializing the property with default values.
-     * - Status is set to "available."
-     * - Hosts list is initialized as an empty list.
-     */
+    @ManyToMany
+    @JoinTable(
+            name = "property_hosts",
+            joinColumns = @JoinColumn(name = "property_id"),
+            inverseJoinColumns = @JoinColumn(name = "host_id")
+    )
+    private List<Host> hosts = new ArrayList<>();
+
     public Property() {
-        this.hosts = new ArrayList<>();
-        this.status = "available";
+        // Default constructor
     }
 
-    /**
-     * Parameterized constructor to initialize the property with specific values.
-     */
-    public Property(String id, String address, double pricing, Owner owner) {
-        this.id = id;
+    public Property(String address, double pricing, Owner owner) {
         this.address = address;
         this.pricing = pricing;
         this.owner = owner;
-        this.hosts = new ArrayList<>();
-        this.status = "available";
     }
 
-    // Getters and setters for all fields
-    public String getId() {
+    // Getters and setters
+    public Long getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getAddress() {
@@ -96,11 +82,11 @@ public abstract class Property {
         this.owner = owner;
     }
 
-    public List<String> getHosts() {
+    public List<Host> getHosts() {
         return hosts;
     }
 
-    public void setHosts(List<String> hosts) {
+    public void setHosts(List<Host> hosts) {
         this.hosts = hosts;
     }
 }
