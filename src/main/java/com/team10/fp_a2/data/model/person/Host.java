@@ -13,9 +13,9 @@ public class Host extends Person {
 
     @ManyToMany
     @JoinTable(
-            name = "host_property_collaborations",
-            joinColumns = @JoinColumn(name = "host"),
-            inverseJoinColumns = @JoinColumn(name = "property")
+            name = "host_managed_properties",
+            joinColumns = @JoinColumn(name = "host_id"),
+            inverseJoinColumns = @JoinColumn(name = "property_id")
     )
     private List<Property> managedProperties = new ArrayList<>();
 
