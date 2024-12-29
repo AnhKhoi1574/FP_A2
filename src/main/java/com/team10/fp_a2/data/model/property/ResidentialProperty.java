@@ -17,7 +17,6 @@ public class ResidentialProperty extends Property {
     private boolean hasSwimmingPool;
 
     public ResidentialProperty() {
-        // Default constructor
     }
 
     public ResidentialProperty(String address, double pricing, Owner owner, int numOfRooms, boolean hasGarden, boolean hasSwimmingPool) {

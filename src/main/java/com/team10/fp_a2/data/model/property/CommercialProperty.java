@@ -15,7 +15,8 @@ public class CommercialProperty extends Property {
     @Column(name = "square_footage", nullable = false)
     private double squareFootage;
 
-    public CommercialProperty() {}
+    public CommercialProperty() {
+    }
 
     public CommercialProperty(String address, double pricing, Owner owner, String businessType, boolean hasParkingSpaces, double squareFootage) {
         super(address, pricing, owner);

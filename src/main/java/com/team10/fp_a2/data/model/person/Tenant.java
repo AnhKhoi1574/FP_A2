@@ -9,6 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "tenants")
+@DiscriminatorValue("TENANT")
 public class Tenant extends Person {
 
     @ManyToMany(mappedBy = "tenants")

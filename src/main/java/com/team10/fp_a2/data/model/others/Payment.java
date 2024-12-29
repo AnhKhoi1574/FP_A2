@@ -10,6 +10,7 @@ import java.time.LocalDate;
  * Includes details such as payment ID, tenant ID, amount, date, and payment method.
  */
 @Entity
+@Table(name = "payments")
 public class Payment {
 
     @Id
@@ -17,11 +18,11 @@ public class Payment {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "tenant", nullable = false)
+    @JoinColumn(name = "tenant_id", nullable = false)
     private Tenant tenant;
 
     @ManyToOne
-    @JoinColumn(name = "rentalAgreement", nullable = false)
+    @JoinColumn(name = "rental_agreement_id", nullable = false)
     private RentalAgreement rentalAgreement;
 
     @Column(nullable = false)
@@ -30,16 +31,18 @@ public class Payment {
     @Column(nullable = false)
     private LocalDate date;
 
-    @Column(name = "paymentMethod", nullable = false)
-    private String paymentMethod;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_method", nullable = false)
+    private PaymentMethod paymentMethod;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private PaymentStatus status;
 
     public Payment() {
     }
 
-    public Payment(Tenant tenant, RentalAgreement rentalAgreement, double amount, String paymentMethod, LocalDate date) {
+    public Payment(Tenant tenant, RentalAgreement rentalAgreement, double amount, PaymentMethod paymentMethod, LocalDate date, PaymentStatus status) {
         this.tenant = tenant;
         this.rentalAgreement = rentalAgreement;
         this.amount = amount;
@@ -85,25 +88,34 @@ public class Payment {
         this.date = date;
     }
 
-    public String getPaymentMethod() {
+    public PaymentMethod getPaymentMethod() {
         return paymentMethod;
     }
 
-    public void setPaymentMethod(String paymentMethod) {
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
 
-    public String getStatus() {
+    public PaymentStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(PaymentStatus status) {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return String.format("Payment{id=%d, tenant=%s, rentalAgreement=%s, amount=%.2f, date=%s, paymentMethod='%s'}",
-                id, tenant.getId(), rentalAgreement.getId(), amount, date, paymentMethod);
+    public enum PaymentMethod {
+        CREDIT_CARD,
+        DEBIT_CARD,
+        BANK_TRANSFER,
+        CASH,
+        PAYPAL
+    }
+
+    public enum PaymentStatus {
+        PENDING,
+        COMPLETED,
+        FAILED,
+        REFUNDED
     }
 }

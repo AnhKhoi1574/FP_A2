@@ -18,13 +18,14 @@ public abstract class Property {
     private String address;
 
     @Column(nullable = false)
-    private double pricing;
+    private double price;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String status = "available";
+    private PropertyStatus status = PropertyStatus.AVAILABLE;
 
     @ManyToOne
-    @JoinColumn(name = "owner", nullable = false)
+    @JoinColumn(name = "owner_id", nullable = false)
     private Owner owner;
 
     @ManyToMany(mappedBy = "managedProperties")
@@ -35,9 +36,9 @@ public abstract class Property {
         // Default constructor
     }
 
-    public Property(String address, double pricing, Owner owner) {
+    public Property(String address, double price, Owner owner) {
         this.address = address;
-        this.pricing = pricing;
+        this.price = price;
         this.owner = owner;
     }
 
@@ -55,18 +56,18 @@ public abstract class Property {
     }
 
     public double getPricing() {
-        return pricing;
+        return price;
     }
 
-    public void setPricing(double pricing) {
-        this.pricing = pricing;
+    public void setPricing(double price) {
+        this.price = price;
     }
 
-    public String getStatus() {
+    public PropertyStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(PropertyStatus status) {
         this.status = status;
     }
 
@@ -86,4 +87,10 @@ public abstract class Property {
         this.hosts = hosts;
     }
 
+    public enum PropertyStatus {
+        AVAILABLE,
+        RENTED,
+        MAINTENANCE,
+        UNDER_CONSTRUCTION
+    }
 }

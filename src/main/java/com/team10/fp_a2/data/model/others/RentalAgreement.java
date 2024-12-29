@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "rental_agreements")
 public class RentalAgreement {
 
     @Id
@@ -19,22 +20,22 @@ public class RentalAgreement {
 
     @ManyToMany
     @JoinTable(
-            name = "rental_agreement_tenants",
-            joinColumns = @JoinColumn(name = "rental_agreement"), // FK to RentalAgreement
-            inverseJoinColumns = @JoinColumn(name = "tenant")     // FK to Tenant
+            name = "rental_agreement_tenant_relationship",
+            joinColumns = @JoinColumn(name = "agreement_id"), // FK to RentalAgreement
+            inverseJoinColumns = @JoinColumn(name = "tenant_id")     // FK to Tenant
     )
     private List<Tenant> tenants = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "owner")
+    @JoinColumn(name = "owner_id")
     private Owner owner;
 
     @ManyToOne
-    @JoinColumn(name = "host")
+    @JoinColumn(name = "host_id")
     private Host host;
 
     @ManyToOne
-    @JoinColumn(name = "property")
+    @JoinColumn(name = "property_id")
     private Property property;
 
     @Column(nullable = false)
@@ -46,8 +47,9 @@ public class RentalAgreement {
     @Column(name = "renting_fee")
     private double rentingFee;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String status;
+    private RentalStatus status;
 
     @OneToMany(mappedBy = "rentalAgreement", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Payment> payments = new ArrayList<>();
@@ -55,7 +57,7 @@ public class RentalAgreement {
     public RentalAgreement() {}
 
     public RentalAgreement(List<Tenant> tenants, Owner owner, Host host, Property property,
-                           int period, LocalDate contractDate, double rentingFee, String status) {
+                           int period, LocalDate contractDate, double rentingFee, RentalStatus status) {
         this.tenants = tenants;
         this.owner = owner;
         this.host = host;
@@ -65,6 +67,7 @@ public class RentalAgreement {
         this.rentingFee = rentingFee;
         this.status = status;
     }
+
 
     // Getters and Setters
     public Long getId() {
@@ -127,13 +130,14 @@ public class RentalAgreement {
         this.rentingFee = rentingFee;
     }
 
-    public String getStatus() {
+    public RentalStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(RentalStatus status) {
         this.status = status;
     }
+
 
     public List<Payment> getPayments() {
         return payments;
@@ -141,5 +145,11 @@ public class RentalAgreement {
 
     public void setPayments(List<Payment> payments) {
         this.payments = payments;
+    }
+
+    public enum RentalStatus {
+        ACTIVE,
+        COMPLETED,
+        CANCELED
     }
 }

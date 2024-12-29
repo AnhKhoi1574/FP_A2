@@ -59,7 +59,7 @@ public class NeonDatabaseTest {
             rentalAgreement.setPeriod(20);
             rentalAgreement.setContractDate(LocalDate.now());
             rentalAgreement.setRentingFee(2000.0);
-            rentalAgreement.setStatus("Active");
+            rentalAgreement.setStatus(RentalAgreement.RentalStatus.ACTIVE);
 
             em.persist(rentalAgreement);
 

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "managers")
+@DiscriminatorValue("MANAGER")
 public class Manager extends Person {
     public Manager() {
         // Default constructor

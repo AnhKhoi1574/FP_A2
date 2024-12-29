@@ -5,8 +5,10 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-@MappedSuperclass
-@Access(AccessType.FIELD) // Use field access for JPA
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "person_type", discriminatorType = DiscriminatorType.STRING)
+@Access(AccessType.FIELD)
 public abstract class Person implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

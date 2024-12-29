@@ -4,11 +4,13 @@ import com.team10.fp_a2.data.model.property.Property;
 import com.team10.fp_a2.data.model.others.RentalAgreement;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "hosts")
+@DiscriminatorValue("HOST")
 public class Host extends Person {
 
     @ManyToMany
@@ -27,6 +29,13 @@ public class Host extends Person {
 
     public Host() {
         // Default constructor
+    }
+
+    public Host(String fullName, LocalDate dob, String email, String username, String password) {
+        super(fullName, dob, email, username, password);
+        this.managedProperties = new ArrayList<>();
+        this.owners = new ArrayList<>();
+        this.rentalAgreements = new ArrayList<>();
     }
 
     public List<Property> getManagedProperties() {
