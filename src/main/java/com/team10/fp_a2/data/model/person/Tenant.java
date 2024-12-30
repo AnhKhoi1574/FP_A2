@@ -39,4 +39,14 @@ public class Tenant extends Person {
     public void setPayments(List<Payment> payments) {
         this.payments = payments;
     }
+
+    public void addRentalAgreement(RentalAgreement rentalAgreement) {
+        rentalAgreements.add(rentalAgreement);
+        rentalAgreement.getTenants().add(this);
+    }
+
+    public  void removeRentalAgreement (RentalAgreement rentalAgreement){
+        rentalAgreements.remove(rentalAgreement);
+        rentalAgreement.getTenants().remove(this);
+    }
 }

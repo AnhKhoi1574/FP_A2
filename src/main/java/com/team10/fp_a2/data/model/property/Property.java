@@ -93,4 +93,14 @@ public abstract class Property {
         MAINTENANCE,
         UNDER_CONSTRUCTION
     }
+
+    public void addHost (Host host){
+        hosts.add(host);
+        host.getManagedProperties().add(this);
+    }
+
+    public void removeHost (Host host){
+        hosts.remove(host);
+        host.getManagedProperties().remove(this);
+    }
 }

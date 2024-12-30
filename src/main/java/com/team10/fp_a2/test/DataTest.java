@@ -75,7 +75,7 @@ public class DataTest {
                     "hoanganhtu@example.com", "anhtu", "tumathau");
 
             em.persist(tenant1);
-            em.persist(tenant2); 
+            em.persist(tenant2);
 
             // 4. Create Properties
             ResidentialProperty resProp1 = new ResidentialProperty("123 Đường Hoa Phượng, Quận 1",

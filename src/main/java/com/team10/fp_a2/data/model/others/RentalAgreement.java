@@ -147,9 +147,25 @@ public class RentalAgreement {
         this.payments = payments;
     }
 
+    public void addPayment(Payment payment) {
+        payments.add(payment);
+        payment.setRentalAgreement(this);
+    }
+
     public enum RentalStatus {
         ACTIVE,
         COMPLETED,
         CANCELED
+    }
+
+    // Additional Methods
+    public void addTenant(Tenant tenant) {
+        tenants.add(tenant);
+        tenant.getRentalAgreements().add(this);
+    }
+
+    public void removeTenant(Tenant tenant) {
+        tenants.remove(tenant);
+        tenant.getRentalAgreements().remove(this);
     }
 }

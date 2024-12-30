@@ -1,7 +1,7 @@
 package com.team10.fp_a2.data.model.person;
 
-import com.team10.fp_a2.data.model.property.Property;
 import com.team10.fp_a2.data.model.others.RentalAgreement;
+import com.team10.fp_a2.data.model.property.Property;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -60,5 +60,26 @@ public class Host extends Person {
 
     public void setOwners(List<Owner> owners) {
         this.owners = owners;
+    }
+
+    // Additional method
+    public void addOwner(Owner owner) {
+        owners.add(owner);
+        owner.getHosts().add(this);
+    }
+
+    public void removeOwner(Owner owner) {
+        owners.remove(owner);
+        owner.getHosts().remove(this);
+    }
+
+    public void addProperty (Property property){
+        managedProperties.add(property);
+        property.getHosts().add(this);
+    }
+
+    public void removeProperty (Property property){
+        managedProperties.remove(property);
+        property.getHosts().remove(this);
     }
 }

@@ -46,4 +46,15 @@ public class Owner extends Person{
     public void setHosts(List<Host> hosts) {
         this.hosts = hosts;
     }
+
+    //Additional method
+    public void addHost(Host host) {
+        hosts.add(host);
+        host.getOwners().add(this);
+    }
+
+    public void removeHost(Host host) {
+        hosts.remove(host);
+        host.getOwners().remove(this);
+    }
 }
